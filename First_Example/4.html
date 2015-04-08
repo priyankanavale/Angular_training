@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="Scripts/angular.js"></script>
+    <title></title>
+</head>
+<body ng-app="myHalliburton">
+<div ng-controller="myHalliburtonCtrl">
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+    <h1>List 1</h1>
+    <o1>
+        <li ng-repeat="n in names">{{n}}</li>
+    </o1>
+</div>
+
+<div ng-controller="myHalliburtonCtrl1">
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+    <h1>List 2</h1>
+    <o1>
+        <li ng-repeat="n in names">{{n}}</li>
+    </o1>
+</div>
+
+
+<script>
+    var app = angular.module('myHalliburton',[]);
+
+    app.factory("myService",[function(){
+        return({
+            items:[
+                    'Name 1',
+                    'Name 2'
+            ],
+            addName:function(name){
+                this.items.push(name);
+            }
+        })
+    }]);
+
+    app.controller('myHalliburtonCtrl',['$scope','myService',function($scope,myService){
+        $scope.addName=function(){
+            myService.addName($scope.name);
+            $scope.name='';
+        };
+
+        $scope.names = myService.items;
+
+    }]);
+    app.controller('myHalliburtonCtrl1',['$scope','myService',function($scope,myService){
+        $scope.addName=function(){
+            myService.addName($scope.name);
+            $scope.name='';
+        };
+
+        $scope.names = myService.items;
+
+    }]);
+</script>
+</body>
+</html>
