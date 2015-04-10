@@ -9,12 +9,12 @@
 <div ng-controller="myHalliburtonCtrl">
     <input type="text" ng-model="name" placeholder="Enter name">
     <button ng-click="addName()">Add</button>
-    <h1>Unfiltered List</h1>
+    <h1>Filtered List</h1>
     <ol>
         <li ng-repeat="n in names | myFilter">{{n}}</li>
     </ol>
 
-    <h1>Filtered List</h1>
+    <h1>Unfiltered List</h1>
     <ol>
         <li ng-repeat="n in names">{{n|capFilter}}</li>
     </ol>
