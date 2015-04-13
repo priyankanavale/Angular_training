@@ -9,6 +9,8 @@
 <div ng-controller="myHalliburtonCtrl">
     <input type="text" ng-model="name" placeholder="Enter name">
     <button ng-click="addName()">Add</button>
+    <br>
+    {{test}}
     <h1>Filtered List</h1>
     <ol>
         <li ng-repeat="n in names | myFilter">{{n}}</li>
@@ -35,21 +37,12 @@
         })
     }]);
 
-    app.controller('myHalliburtonCtrl',['$scope','myService',function($scope,myService){
+    app.controller('myHalliburtonCtrl',['$scope','myService','$filter',function($scope,myService,$filter){
         $scope.addName=function(){
             myService.addName($scope.name);
             $scope.name='';
         };
-
-        $scope.names = myService.items;
-
-    }]);
-    app.controller('myHalliburtonCtrl1',['$scope','myService',function($scope,myService){
-        $scope.addName=function(){
-            myService.addName($scope.name);
-            $scope.name='';
-        };
-
+        $scope.test = $filter('capFilter')('abc');
         $scope.names = myService.items;
 
     }]);
