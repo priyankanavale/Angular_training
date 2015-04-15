@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-ui-router.js"></script>
+    <title>UI Routes</title>
+</head>
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+    <h1>Synerzip</h1>
+
+    <a ui-sref="state1">State1</a>
+
+    <a ui-sref="state2">State2</a>
+
+
+    <br/>
+    <h2>Content</h2>
+    <div ui-view></div>
+
+    <h2>Footer</h2>
+</div>
+
+<script>
+    var app = angular.module('myApp',['ui.router']);
+
+    app.factory("myService",[function(){
+        return({
+            items:[
+                'Text with day',
+                'Normal text'
+            ],
+            addName:function(name){
+                this.items.push(name);
+            }
+        })
+    }]);
+
+    app.controller('myCtrl',['$scope','myService','$filter',function($scope,myService,$filter){
+        $scope.addName=function(){
+            myService.addName($scope.name);
+            $scope.name='';
+        };
+
+        $scope.names = myService.items;
+
+    }]);
+
+    // Filtered list will contain the words having 'day'
+    //Squared bracket are required only when there is dependency on the funtion,or we can remove those.
+    app.filter('myFilter',[function(){
+        var filter = function(items){
+            var filtered=[];
+            for(var i=0;i<items.length;i++){
+                var item=items[i];
+                if(item.search(/day/)!=-1){
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        return filter;
+    }]);
+
+    app.filter('capFilter',function(){
+        return function(text){
+            return text.toString().toUpperCase();
+        }
+    });
+
+    app.config(function($stateProvider,$urlRouterProvider){
+        $urlRouterProvider.otherwise("/state/list");//default state
+
+        $stateProvider
+                .state('state1',{
+                    url:"/state1",
+                    templateUrl:"partials/state1.html"
+                })
+                .state('state1.list',{
+                    url:"/list",
+                    templateUrl:"partials/state1.list.html",
+                    controller:function($scope){
+                        $scope.items=["item1","item2","item3"]
+                    }
+                })
+                .state('state2',{
+                    url:"/state2",
+                    templateUrl:"partials/state2.html"
+                })
+                .state('state2.table',{
+                    url:"/table",
+                    templateUrl:"partials/state2.table.html",
+                    controller:function($scope){
+                        $scope.items=["item1","item2","item3"]
+                    }
+                })
+
+    });
+</script>
+</body>
+</html>

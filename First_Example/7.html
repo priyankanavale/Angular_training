@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!--<script src="Scripts/angular.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <title></title>
+</head>
+<body ng-app="myHalliburton">
+<div ng-controller="myHalliburtonCtrl">
+    <!--
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+    <br>
+    {{test}}
+    <h1>Filtered List</h1>
+    <ol>
+        <li ng-repeat="n in names | myFilter">{{n|capFilter}}</li>
+    </ol>
+
+    <h1>Unfiltered List</h1>
+    <ol>
+        <li ng-repeat="n in names">{{n}}</li>
+    </ol>
+-->
+    <h1>List from Directives</h1>
+
+    <my-list info="abcd"></my-list>
+
+</div>
+
+<script>
+    var app = angular.module('myHalliburton',[]);
+/*
+    app.factory("myService",[function(){
+        return({
+            items:[
+                'Name 1',
+                'Name 2',
+                'SUNDAY'
+            ],
+            addName:function(name){
+                this.items.push(name);
+            }
+        })
+    }]);
+*/
+    app.controller('myHalliburtonCtrl',['$scope',function($scope){
+        /*
+        $scope.addName=function(){
+            myService.addName($scope.name);
+            $scope.name='';
+        };
+
+        $scope.test = $filter('capFilter')('abc');*/
+       // $scope.names = myService.items;
+        $scope.name='JAmes';
+    }]);
+    //Using Directives
+    //Writing output variable in {{}} in runtime rendering but if we use ng-bind then it is compile time.
+
+    app.directive('myList', function(){
+        return {
+            scope: {name='@info'},
+            template: '{{name}}'
+        };
+    });
+    // Filtered list will contain the words having 'day'
+    //Squared bracket are required only when there is dependency on the funtion,or we can remove those.
+   /* app.filter('myFilter',[function(){
+        var filter = function(items){
+            var filtered=[];
+            for(var i=0;i<items.length;i++){
+                var item=items[i];
+                if(item.search(/day/)!=-1){
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        };
+        return filter;
+    }]);
+
+    app.filter('capFilter',function(){
+        return function(text){
+            return text.toString().toUpperCase();
+        }
+    });*/
+
+
+</script>
+</body>
+</html>
